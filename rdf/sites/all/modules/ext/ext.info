@@ -1,0 +1,27 @@
+name = Ext
+description = "Loads the Ext JavaScript framework."
+package = Ext
+version = VERSION
+core = 6.x
+
+
+; Information added by drupal.org packaging script on 2008-05-24
+version = "6.x-1.x-dev"
+core = "6.x"
+project = "ext"
+datestamp = "1211630687"
+
+
+; Information added by drupal.org packaging script on 2009-06-20
+version = "6.x-1.x-dev"
+core = "6.x"
+project = "ext"
+datestamp = "1245456577"
+
+
+; Information added by drupal.org packaging script on 2011-02-25
+version = "6.x-1.x-dev"
+core = "6.x"
+project = "ext"
+datestamp = "1298619216"
+

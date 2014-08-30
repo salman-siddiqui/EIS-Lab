@@ -1,0 +1,748 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+@prefix sw: <http://slidewiki.org/rdf/sw#>.
+@prefix wa: <http://slidewiki.org/rdf/wa#>.
+@prefix sa: <http://slidewiki.org/rdf/sa#>.
+@prefix dcterms: <http://purl.org/dc/terms/>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix cnt: <http://www.w3.org/2011/content#>.
+@prefix oa: <http://www.w3.org/ns/oa#>.
+
+<#DeckContainerIncludes>
+	rr:logicalTable [ rr:tableName "deck_revision" ];
+    rr:subjectMap [
+        rr:template "http://slidewiki.org/rdf/deckContainer/{deck_id}";
+        rr:class sw:DeckContainer;
+    ];
+	rr:predicateObjectMap [
+        rr:predicate wa:includes;
+        rr:objectMap [
+			rr:template "http://slidewiki.org/rdf/deck/{id}";			
+		];
+	].
+	
+<#User>
+    rr:logicalTable [ rr:tableName "users" ];
+    rr:subjectMap [
+        rr:template "http://slidewiki.org/rdf/user/{id}";
+        rr:class sw:User;
+    ];
+    rr:predicateObjectMap [
+        rr:predicate foaf:mbox;
+        rr:objectMap [ rr:column "email" ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate foaf:nick;
+        rr:objectMap [ rr:column "username" ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate dcterms:date;
+        rr:objectMap [ rr:column "registered" ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate foaf:firstName;
+        rr:objectMap [ rr:column "first_name" ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate foaf:familyName;
+        rr:objectMap [ rr:column "last_name" ];
+    ];
+	rr:predicateObjectMap [
+        rr:predicate dcterms:language;
+        rr:objectMap [ rr:column "locale" ];
+    ];
+	rr:predicateObjectMap [
+        rr:predicate foaf:gender;
+        rr:objectMap [ rr:column "gender" ];
+    ];
+	rr:predicateObjectMap [
+        rr:predicate sw:speaks;
+        rr:objectMap [ rr:column "languages" ];
+    ];
+	rr:predicateObjectMap [
+        rr:predicate foaf:based_near;
+        rr:objectMap [ rr:column "location" ];
+    ];
+	rr:predicateObjectMap [
+        rr:predicate foaf:topic_interest;
+        rr:objectMap [ rr:column "interests" ];
+    ];
+	rr:predicateObjectMap [
+        rr:predicate foaf:depiction;
+        rr:objectMap [ rr:column "picture" ];
+    ];
+	rr:predicateObjectMap [
+        rr:predicate sw:homeLocation;
+        rr:objectMap [ rr:column "hometown" ];
+    ];
+	rr:predicateObjectMap [
+        rr:predicate foaf:birthday;
+        rr:objectMap [ rr:column "birthday" ];
+    ];
+	rr:predicateObjectMap [
+        rr:predicate dcterms:description;
+        rr:objectMap [ rr:column "description" ];
+    ];
+	rr:predicateObjectMap [
+        rr:predicate foaf:page;
+        rr:objectMap [ rr:column "infodeck" ];
+    ].
+	
+<#DeckContainer>
+    rr:logicalTable [ rr:tableName "deck" ];	
+    rr:subjectMap [
+        rr:template "http://slidewiki.org/rdf/deckContainer/{id}";
+        rr:class sw:DeckContainer;
+    ];
+    rr:predicateObjectMap [
+        rr:predicate dcterms:created;
+        rr:objectMap [ rr:column "timestamp" ];
+    ];
+	rr:predicateObjectMap [
+        rr:predicate dcterms:creator;
+        rr:objectMap [ 
+	    rr:parentTriplesMap <#User>;
+            rr:joinCondition [
+                rr:child "user_id";
+                rr:parent "id";
+            ];
+		];
+	];
+	rr:predicateObjectMap [
+        rr:predicate wa:translationOf;
+        rr:objectMap [ 
+			rr:template "http://slidewiki.org/rdf/deckContainer/{translated_from}";
+		];
+	].
+
+<#SlideContainerIncludes>
+	rr:logicalTable [ rr:tableName "slide_revision" ];
+    rr:subjectMap [
+        rr:template "http://slidewiki.org/rdf/slideContainer/{slide}";
+        rr:class sw:SlideContainer;
+    ];
+	rr:predicateObjectMap [
+        rr:predicate wa:includes;
+        rr:objectMap [
+			rr:template "http://slidewiki.org/rdf/slide/{id}";			
+		];
+	].
+	
+<#SlideContainer>
+    rr:logicalTable [ rr:tableName "slide" ];
+    rr:subjectMap [
+        rr:template "http://slidewiki.org/rdf/slideContainer/{id}";
+        rr:class sw:SlideContainer;
+    ];
+    rr:predicateObjectMap [
+        rr:predicate dcterms:creator;
+        rr:objectMap [ 
+	    rr:parentTriplesMap <#User>;
+            rr:joinCondition [
+                rr:child "user_id";
+                rr:parent "id";
+            ];
+		];
+	];
+	rr:predicateObjectMap [
+        rr:predicate wa:translationOf;
+        rr:objectMap [ 
+			rr:template "http://slidewiki.org/rdf/slideContainer/{translated_from}";
+		];
+	];
+	rr:predicateObjectMap [
+        rr:predicate dcterms:source;
+        rr:objectMap [ rr:column "description" ];
+	].
+	
+	
+
+<#TagDeck>
+	rr:logicalTable [ rr:sqlQuery """
+	SELECT *
+	FROM tag WHERE tag.item_type='deck' """ 
+	];
+    rr:subjectMap [
+        rr:template "http://slidewiki.org/rdf/deck/{item_id}";
+        rr:class sw:Deck;
+    ];
+	rr:predicateObjectMap [
+        rr:predicate dcterms:subject;
+        rr:objectMap [ rr:column "tag" ];
+	].
+	
+<#DeckPartOf>
+	rr:logicalTable [ rr:sqlQuery """
+	SELECT *
+	FROM deck_content WHERE deck_content.item_type='deck'""" 
+	];
+    rr:subjectMap [
+        rr:template "http://slidewiki.org/rdf/deck/{item_id}";
+        rr:class sw:Deck;
+    ];
+	rr:predicateObjectMap [
+        rr:predicate dcterms:isPartOf;
+        rr:objectMap [
+			rr:template "http://slidewiki.org/rdf/deck/{deck_revision_id}"
+		];
+	].
+
+<#SlidePartOf>
+	rr:logicalTable [ rr:sqlQuery """
+	SELECT *
+	FROM deck_content WHERE deck_content.item_type='slide'""" 
+	];
+    rr:subjectMap [
+        rr:template "http://slidewiki.org/rdf/slide/{item_id}";
+        rr:class sw:Slide;
+    ];
+	rr:predicateObjectMap [
+        rr:predicate dcterms:isPartOf;
+        rr:objectMap [ 
+			rr:template "http://slidewiki.org/rdf/deck/{deck_revision_id}";
+		];
+	].
+	
+
+<#DeckHasPartDecks>
+	rr:logicalTable [ rr:sqlQuery """
+	SELECT *
+	FROM deck_content WHERE deck_content.item_type='deck'""" 
+	];
+    rr:subjectMap [
+        rr:template "http://slidewiki.org/rdf/deck/{deck_revision_id}";
+        rr:class sw:Deck;
+    ];
+	rr:predicateObjectMap [
+        rr:predicate dcterms:hasPart;
+        rr:objectMap [ 
+			rr:template "http://slidewiki.org/rdf/deck/{item_id}";
+		];
+	].
+	
+<#DeckHasPartSlides>
+	rr:logicalTable [ rr:sqlQuery """
+	SELECT *
+	FROM deck_content WHERE deck_content.item_type='slide'""" 
+	];
+    rr:subjectMap [
+        rr:template "http://slidewiki.org/rdf/deck/{deck_revision_id}";
+        rr:class sw:Deck;
+    ];
+	rr:predicateObjectMap [
+        rr:predicate dcterms:hasPart;
+        rr:objectMap [ 
+			rr:template "http://slidewiki.org/rdf/slide/{item_id}";
+		];
+	].
+	
+	
+<#DeckContributor>
+	rr:logicalTable [ rr:sqlQuery """
+	SELECT deck_revision.id, deck_revision.user_id as deck_user, user_group.user_id as user_user, user_group.deck_revision_id
+	FROM deck_revision
+	JOIN user_group ON deck_revision.id = user_group.deck_revision_id
+	WHERE user_group.user_id != deck_revision.user_id """ 
+	];
+    rr:subjectMap [
+        rr:template "http://slidewiki.org/rdf/deck/{id}";
+        rr:class sw:Deck;
+    ];
+	rr:predicateObjectMap [
+        rr:predicate dcterms:contributor;
+        rr:objectMap [ 
+			rr:parentTriplesMap <#User>;
+            rr:joinCondition [
+                rr:child "user_user";
+                rr:parent "id";
+            ];
+		];		
+	].
+	
+
+<#Deck>
+    rr:logicalTable [ rr:sqlQuery """
+	SELECT deck.language, deck_revision.*
+	FROM deck
+	JOIN deck_revision ON deck_revision.deck_id = deck.id """
+	];
+    rr:subjectMap [
+        rr:template "http://slidewiki.org/rdf/deck/{id}";
+        rr:class sw:Deck;
+    ];
+    rr:predicateObjectMap [
+        rr:predicate dcterms:created;
+        rr:objectMap [ rr:column "timestamp" ];
+    ];
+	rr:predicateObjectMap [
+        rr:predicate dcterms:language;
+        rr:objectMap [ rr:column "language" ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate dcterms:title;
+        rr:objectMap [ rr:column "title" ];
+    ];    
+    rr:predicateObjectMap [
+        rr:predicate sw:popularity;
+        rr:objectMap [ rr:column "popularity" ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate dcterms:description;
+        rr:objectMap [ rr:column "abstract" ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate wa:instanceOf;
+        rr:objectMap [ 
+	    rr:parentTriplesMap <#DeckContainer>;
+            rr:joinCondition [
+                rr:child "deck_id";
+                rr:parent "id";
+            ];
+		];
+    ];
+	rr:predicateObjectMap [
+        rr:predicate dcterms:creator;
+        rr:objectMap [ 
+	    rr:parentTriplesMap <#User>;
+            rr:joinCondition [
+                rr:child "user_id";
+                rr:parent "id";
+            ];
+		];
+	];
+	rr:predicateObjectMap [
+        rr:predicate dcterms:contributor;
+        rr:objectMap [ 
+	    rr:parentTriplesMap <#User>;
+            rr:joinCondition [
+                rr:child "user_id";
+                rr:parent "id";
+            ];
+		];
+	];
+	rr:predicateObjectMap [
+        rr:predicate wa:translationOf;
+        rr:objectMap [ 
+			rr:template "http://slidewiki.org/rdf/deck/{translated_from_revision}";
+		];
+	];
+	rr:predicateObjectMap [
+        rr:predicate wa:revisionOf;
+        rr:objectMap [ 
+			rr:template "http://slidewiki.org/rdf/deck/{based_on}";
+		];
+	];
+	rr:predicateObjectMap [
+        rr:predicate oa:styledBy;
+        rr:objectMap [ 
+			rr:template "http://slidewiki.org/rdf/style/{default_theme}";
+		];
+	].
+	
+<#Slide>
+    rr:logicalTable [ rr:sqlQuery """
+	SELECT slide.language, slide_revision.*
+	FROM slide
+	JOIN slide_revision ON slide_revision.slide = slide.id """
+	];
+    rr:subjectMap [
+        rr:template "http://slidewiki.org/rdf/slide/{id}";
+        rr:class sw:Slide
+    ];
+    rr:predicateObjectMap [
+        rr:predicate dcterms:created;
+        rr:objectMap [ rr:column "timestamp" ];
+    ];
+	rr:predicateObjectMap [
+        rr:predicate dcterms:language;
+        rr:objectMap [ rr:column "language" ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate cnt:chars;
+        rr:objectMap [ rr:column "content" ];
+    ];    
+    rr:predicateObjectMap [
+        rr:predicate sw:popularity;
+        rr:objectMap [ rr:column "popularity" ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate dcterms:description;
+        rr:objectMap [ rr:column "comment" ];
+    ];
+	rr:predicateObjectMap [
+        rr:predicate sw:slideNote;
+        rr:objectMap [ rr:column "note" ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate wa:instanceOf;
+        rr:objectMap [ 
+	    rr:parentTriplesMap <#SlideContainer>;
+            rr:joinCondition [
+                rr:child "slide";
+                rr:parent "id";
+            ];
+		];
+    ];
+	rr:predicateObjectMap [
+        rr:predicate dcterms:creator;
+        rr:objectMap [ 
+	    rr:parentTriplesMap <#User>;
+            rr:joinCondition [
+                rr:child "user_id";
+                rr:parent "id";
+            ];
+		];
+	];
+	rr:predicateObjectMap [
+        rr:predicate sw:translator;
+        rr:objectMap [ 
+	    rr:parentTriplesMap <#User>;
+            rr:joinCondition [
+                rr:child "translator_id";
+                rr:parent "id";
+            ];
+		];
+	];
+	rr:predicateObjectMap [
+        rr:predicate wa:translationOf;
+        rr:objectMap [ 
+			rr:template "http://slidewiki.org/rdf/slide/{translated_from_revision}";
+		];
+	];
+	rr:predicateObjectMap [
+        rr:predicate wa:revisionOf;
+        rr:objectMap [ 
+			rr:template "http://slidewiki.org/rdf/slide/{based_on}";
+		];
+	].
+	
+	
+<#QuestionsAssigned>
+	rr:logicalTable [ rr:sqlQuery """
+	SELECT *
+	FROM questions WHERE questions.id NOT IN
+	(SELECT `based_on` FROM `questions` WHERE based_on IS NOT NULL)"""
+	];
+    rr:subjectMap [
+        rr:template "http://slidewiki.org/rdf/question/{id}";
+        rr:class sw:Queston;
+    ];
+    rr:predicateObjectMap [
+        rr:predicate wa:assignedTo;
+        rr:objectMap [ 
+			rr:template "http://slidewiki.org/rdf/slideContainer/{item_id}";
+		];
+    ].
+	
+<#CommentDecks>
+	rr:logicalTable [ rr:sqlQuery """ 
+	SELECT * FROM comment
+	WHERE item_type='deck'
+	"""];
+	rr:subjectMap [
+        rr:template "http://slidewiki.org/rdf/comment/{id}";
+        rr:class sw:Comment;
+    ];
+	rr:predicateObjectMap [
+        rr:predicate wa:assignedTo;
+        rr:objectMap [ 
+			rr:template "http://slidewiki.org/rdf/deck/{item_id}";
+		];
+    ];
+	rr:predicateObjectMap [
+        rr:predicate dcterms:creator;
+        rr:objectMap [ 
+	    rr:parentTriplesMap <#User>;
+            rr:joinCondition [
+                rr:child "user_id";
+                rr:parent "id";
+            ];
+		];
+	];
+	rr:predicateObjectMap [
+        rr:predicate cnt:chars;
+        rr:objectMap [ rr:column "text" ];
+    ];
+	rr:predicateObjectMap [
+        rr:predicate dcterms:title;
+        rr:objectMap [ rr:column "title" ];
+    ];
+	rr:predicateObjectMap [
+        rr:predicate dcterms:created;
+        rr:objectMap [ rr:column "timestamp" ];
+    ].
+
+<#CommentSlides>
+	rr:logicalTable [ rr:sqlQuery """ 
+	SELECT * FROM comment
+	WHERE item_type='slide'
+	"""];
+	rr:subjectMap [
+        rr:template "http://slidewiki.org/rdf/comment/{id}";
+        rr:class sw:Comment;
+    ];
+	rr:predicateObjectMap [
+        rr:predicate wa:assignedTo;
+        rr:objectMap [ 
+			rr:template "http://slidewiki.org/rdf/slide/{item_id}";
+		];
+    ];
+	rr:predicateObjectMap [
+        rr:predicate dcterms:creator;
+        rr:objectMap [ 
+	    rr:parentTriplesMap <#User>;
+            rr:joinCondition [
+                rr:child "user_id";
+                rr:parent "id";
+            ];
+		];
+	];
+	rr:predicateObjectMap [
+        rr:predicate cnt:chars;
+        rr:objectMap [ rr:column "text" ];
+    ];
+	rr:predicateObjectMap [
+        rr:predicate dcterms:title;
+        rr:objectMap [ rr:column "title" ];
+    ];
+	rr:predicateObjectMap [
+        rr:predicate dcterms:created;
+        rr:objectMap [ rr:column "timestamp" ];
+    ].
+	
+	
+<#StyleHasRevision>
+	rr:logicalTable [ rr:sqlQuery """
+	SELECT * FROM style
+	WHERE based_on IS NOT NULL
+	"""];
+	rr:subjectMap [
+		rr:template "http://slidewiki.org/rdf/style/{based_on}";
+        rr:class sw:Style
+	];
+	rr:predicateObjectMap [
+		rr:predicate wa:hasRevision;
+		rr:objectMap[ 
+			rr:template  "http://slidewiki.org/rdf/style/{id}";                
+        ];
+	];
+	rr:predicateObjectMap [
+        rr:predicate dcterms:creator;
+        rr:objectMap [ 
+	    rr:parentTriplesMap <#User>;
+            rr:joinCondition [
+                rr:child "user_id";
+                rr:parent "id";
+            ];
+		];
+	].
+	
+
+<#Style>
+	rr:logicalTable [ rr:tableName "style" ];
+    rr:subjectMap [
+        rr:template "http://slidewiki.org/rdf/style/{id}";
+        rr:class sw:Style;
+    ];
+	rr:predicateObjectMap [
+        rr:predicate dcterms:created;
+        rr:objectMap [ rr:column "timestamp" ];
+    ];
+	rr:predicateObjectMap [
+        rr:predicate cnt:chars;
+        rr:objectMap [ rr:column "css" ];
+    ];
+	rr:predicateObjectMap [
+        rr:predicate dcterms:description;
+        rr:objectMap [ rr:column "comment" ];
+    ];
+	rr:predicateObjectMap [
+        rr:predicate dcterms:title;
+        rr:objectMap [ rr:column "name" ];
+    ];
+	rr:predicateObjectMap [
+        rr:predicate dcterms:creator;
+        rr:objectMap [ 
+	    rr:parentTriplesMap <#User>;
+            rr:joinCondition [
+                rr:child "user_id";
+                rr:parent "id";
+            ];
+		];
+	];
+	rr:predicateObjectMap [
+        rr:predicate wa:revisionOf;
+		rr:objectMap[ 
+			rr:template  "http://slidewiki.org/rdf/style/{based_on}";                
+        ];
+	].
+	
+	
+	
+	
+<#Question>
+	rr:logicalTable [ rr:tableName "questions" ];
+    rr:subjectMap [
+        rr:template "http://slidewiki.org/rdf/question/{id}";
+        rr:class sw:Queston;
+		rr:class sa:Queston;
+    ];
+	rr:predicateObjectMap [
+        rr:predicate dcterms:created;
+        rr:objectMap [ rr:column "timestamp" ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate sw:defaultDifficulty;
+        rr:objectMap [ rr:column "difficulty" ];
+    ];
+	rr:predicateObjectMap [
+        rr:predicate cnt:chars;
+        rr:objectMap [ rr:column "question" ];
+    ];
+	rr:predicateObjectMap [
+        rr:predicate sa:difficultyLevel;
+        rr:objectMap [ rr:column "diff_count" ];
+    ];
+	rr:predicateObjectMap [
+        rr:predicate wa:revisionOf;
+        rr:objectMap [ 
+			rr:template "http://slidewiki.org/rdf/question/{based_on}";
+		];
+	];
+	rr:predicateObjectMap [
+        rr:predicate dcterms:creator;
+        rr:objectMap [ 
+	    rr:parentTriplesMap <#User>;
+            rr:joinCondition [
+                rr:child "user_id";
+                rr:parent "id";
+            ];
+		];
+	].
+	
+	
+
+
+<#UserTestHasPart>
+	rr:logicalTable [rr:tableName "test_content"];
+	rr:subjectMap [
+		rr:template "http://slidewiki.org/rdf/userTest/{test_id}";
+        rr:class sw:UserTest;
+	];
+	rr:predicateObjectMap [
+        rr:predicate dcterms:hasPart;
+        rr:objectMap [ 
+			rr:parentTriplesMap <#Question>;
+			rr:joinCondition [
+				rr:child "question_id";
+				rr:parent "id";
+			];
+		];		
+    ].
+
+<#UserTest>
+	rr:logicalTable [ rr:tableName "user_tests" ];
+    rr:subjectMap [
+        rr:template "http://slidewiki.org/rdf/userTest/{id}";
+        rr:class sw:UserTest;
+    ];
+	rr:predicateObjectMap [
+        rr:predicate dcterms:created;
+        rr:objectMap [ rr:column "timestamp" ];
+    ];
+	rr:predicateObjectMap [
+        rr:predicate dcterms:title;
+        rr:objectMap [ rr:column "title" ];
+    ];
+	rr:predicateObjectMap [
+        rr:predicate dcterms:creator;
+        rr:objectMap [ 
+			rr:parentTriplesMap <#User>;
+            rr:joinCondition [
+                rr:child "user_id";
+                rr:parent "id";
+            ];
+		];
+	].
+	
+<#QuestionPartOftest>
+	rr:logicalTable [rr:tableName "test_content"];
+	rr:subjectMap [
+		rr:template "http://slidewiki.org/rdf/question/{question_id}";
+        rr:class sw:Question;		
+	];
+	rr:predicateObjectMap [
+        rr:predicate dcterms:isPartOf;
+        rr:objectMap [ 
+			rr:parentTriplesMap <#UserTest>;
+			rr:joinCondition [
+				rr:child "test_id";
+				rr:parent "id";
+			];
+		];		
+    ].	
+	
+<#Choice>
+	rr:logicalTable [ rr:tableName "answers"];
+	rr:subjectMap [
+		rr:template "http://slidewiki.org/rdf/choice/{id}";
+        rr:class sa:Choice;
+	];
+	rr:predicateObjectMap [
+        rr:predicate cnt:chars;
+        rr:objectMap [ rr:column "answer" ];
+    ];
+	rr:predicateObjectMap [
+        rr:predicate sa:explanation;
+        rr:objectMap [ rr:column "explanation" ];
+    ].
+	
+<#Distractors>
+	rr:logicalTable [ rr:sqlQuery """
+		SELECT * 
+		FROM answers
+		WHERE is_right='no' """
+	];
+	rr:subjectMap [
+		rr:template "http://slidewiki.org/rdf/question/{question_id}";
+        rr:class sw:Question;
+	];
+	rr:predicateObjectMap [
+        rr:predicate sa:distractor;
+        rr:objectMap [ 
+			rr:parentTriplesMap <#Choice>;
+			rr:joinCondition [
+				rr:child "id";
+				rr:parent "id";
+			];
+		];
+    ].
+	
+<#CorrectChoices>
+	rr:logicalTable [ rr:sqlQuery """
+		SELECT * 
+		FROM answers
+		WHERE is_right='yes' """
+	];
+	rr:subjectMap [
+		rr:template "http://slidewiki.org/rdf/question/{question_id}";
+        rr:class sw:Question;
+	];
+	rr:predicateObjectMap [
+        rr:predicate sa:correctChoice;
+        rr:objectMap [ 
+			rr:parentTriplesMap <#Choice>;
+			rr:joinCondition [
+				rr:child "id";
+				rr:parent "id";
+			];
+		];
+    ].
+	
+
+
+
+    
+
+
+
+
