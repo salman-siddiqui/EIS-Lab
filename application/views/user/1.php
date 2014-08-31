@@ -1,9 +1,10 @@
-<div> <td>
-<ul><img src= "http://localhost/slidewiki/badges/Self-Assessment.png" width='180' height='150'/><br></ul>
-<ul><img src= "http://localhost/slidewiki/badges/Translation-Basic.png" width='180' height='150'/><br></ul>
-<ul><img src= "http://localhost/slidewiki/badges/Translation-Intermediate.png" width='180' height='150'/><br></ul>
-<ul><img src= "http://localhost/slidewiki/badges/Translation-Advanced.png" width='180' height='150'/><br></ul>
-</td></div>
+<img src= "http://localhost/slidewiki/slidewiki_logo.png"/>
+<div> 
+<img src= "http://localhost/slidewiki/badges/Self-Assessment.png" width='200' height='170'/><br>
+<img src= "http://localhost/slidewiki/badges/Translation-Basic.png" width='200' height='170'/><br>
+<img src= "http://localhost/slidewiki/badges/Translation-Intermediate.png" width='200' height='170'/><br>
+<img src= "http://localhost/slidewiki/badges/Translation-Advanced.png" width='200' height='170'/><br>
+</div>
 
  <script type="text/javascript">
 //window.open("http://www.google.com",'name','height=430,width=800');

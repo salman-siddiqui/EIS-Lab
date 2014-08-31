@@ -175,6 +175,14 @@
                         </ul>
                     </li>
                     </ul>
+                    
+                    <ul class="nav">
+                    <li class="dropdown" style="margin-left:5px;">
+                    	<a href="http://localhost/slidewiki/application/views/user/badgeDescription.php"><? echo _("SlideWiki Badges");?></a>
+                    	
+                    </li>
+                    </ul>
+                    
                     <ul class="nav secondary-nav">
                         <?php if ($user['is_authorized']): ?>
                         <li class="dropdown">
