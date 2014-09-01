@@ -248,12 +248,9 @@ function deleteQuestion(id){
         })
     }
 }
-//POI
 
-function set_temp(x){
-    var temp1 = x;
-    
-}
+
+
 function showDeckQuestions(id) { 
 	
 	$('#additional-elements').hide();
@@ -275,15 +272,13 @@ function showDeckQuestions(id) {
                         }
                         var temp = data.questions.toSource();
                         var count = temp.match(/question:/g);
-                        occurance = count.length;
-                        set_temp(occurance);
+                        var totalQuestions = count.length;
+                        if (totalQuestions < 10){
+                        alert("This deck does not meet minimum requirement of 10 questions. No badge will be issued.");
+                        }
                         stars_live();
 								}
-								
-	});
-	
-	//alert("Total questions: " +occurance);
-	
+			});
 }
 
 
@@ -659,11 +654,6 @@ function toggleAnswers(id){
 
 //-----------------------------------assesment staff---------------------------------
 
-
-
-
-
-
 function startTest(){
     var node = $('#quest_preferences');
     var type = node.find('[name="test_type"]').val();
@@ -772,11 +762,17 @@ function buildQuestList(data, nodeQuest){
     for (var i in data.modules){        
         buildQuestList(data.modules[i], div);
     }
+    var temp = data.questions.toSource();
+    var count = temp.match(/question:/g);
+    no_OfQues = count.length;
+    //str= temp.substring(23,26);
+    //alert(str);
+    document.cookie='questions='+no_OfQues;
 }
 function countModule(node){
     var quest_points = 0;
     var now = 0;
-    var testID = document.cookie; //id of the taken test
+   // var testID = document.cookie; //id of the taken test
     node.attr("mod_max",0);
     node.attr("wiki_app",0);
     node.attr("dich",0);
@@ -804,26 +800,28 @@ function countModule(node){
         var morgan = parseFloat(node.attr("morgan"));
         var ripkey = parseFloat(node.attr("ripkey"));
         var maxForUser = parseFloat(node.attr("maxForUser"));
-       
         node.find('[name="module_total"]').remove();
-        
         node.append(
                 "<div name='module_total'><table><tr name='total_string' bgcolor='pink'><td style='text-align: right !important'><b>Total:</b><td>" 
                 +"Guess-based:" + ((wiki_app/max_points)*100).toFixed(2) + "%"
                 + "</td><td>Dichotomous:" +((dich/max_points)*100).toFixed(2)+ "%</td><td>MTF:" +((mtf/max_points)*100).toFixed(2)+ "%</td><td>Morgan:" +((morgan/max_points)*100).toFixed(2)+ "%</td><td>Ripkey:" +((ripkey/max_points)*100).toFixed(2)+ "%</td><td>your best is: " + (maxForUser*100).toFixed(2) + "%</td></tr></table></div>"
         );
         
-        if ((wiki_app/max_points)*100 == 100){
+        var allcookies = document.cookie;
+    	cookiearray  = allcookies.split(';');
+    	qCount = cookiearray[1].split('=')[1];
+    	
+        if ((wiki_app/max_points)*100 == 100){//&& qCount >= 3){
         	
         	var allcookies = document.cookie;
         	cookiearray  = allcookies.split(';');
         	testID = cookiearray[0].split('=')[1];
         	
-        	alert("Congratulation..!! You scored 100% in this test, Claim your badge on pop-up page");
         	
-        	window.open("http://salmansiddiqui.byethost15.com/badge-it-gadget-lite-master/process-badges/index.php?verified=1&id="+testID+"",'name','height=430,width=800'); // embeed testID into badge issue URL
-        
-        	
+        //alert("Congratulation..!! You scored 100% in this test, Claim your badge on pop-up page");
+        alert(document.cookie);
+        //window.open("http://salmansiddiqui.byethost15.com/badge-it-gadget-lite-master/process-badges/index.php?verified=1&id="+testID+"",'name','height=430,width=800'); // embed testID into badge issue URL
+                	
         	}
         node.children("[name='moduleDiv']").each(function() {
             countModule($(this));
