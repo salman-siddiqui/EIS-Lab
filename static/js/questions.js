@@ -250,6 +250,10 @@ function deleteQuestion(id){
 }
 //POI
 
+function set_temp(x){
+    var temp1 = x;
+    
+}
 function showDeckQuestions(id) { 
 	
 	$('#additional-elements').hide();
@@ -259,7 +263,7 @@ function showDeckQuestions(id) {
 	$.ajax({ 
 		
 		url : './?url=ajax/showDeckQuestions&id=' + id,
-                async : false,
+              async : false,
 		success : function(msg) {			
 			var data = eval("(" + msg + ")");
                         $("#item_questions").tmpl(data).appendTo("#itemquestions");
@@ -272,10 +276,14 @@ function showDeckQuestions(id) {
                         var temp = data.questions.toSource();
                         var count = temp.match(/question:/g);
                         occurance = count.length;
-                           alert("Total questions: " +occurance);  
+                        set_temp(occurance);
                         stars_live();
-								}	
+								}
+								
 	});
+	
+	//alert("Total questions: " +occurance);
+	
 }
 
 
@@ -796,7 +804,7 @@ function countModule(node){
         var morgan = parseFloat(node.attr("morgan"));
         var ripkey = parseFloat(node.attr("ripkey"));
         var maxForUser = parseFloat(node.attr("maxForUser"));
-        
+       
         node.find('[name="module_total"]').remove();
         
         node.append(
@@ -812,6 +820,7 @@ function countModule(node){
         	testID = cookiearray[0].split('=')[1];
         	
         	alert("Congratulation..!! You scored 100% in this test, Claim your badge on pop-up page");
+        	
         	window.open("http://salmansiddiqui.byethost15.com/badge-it-gadget-lite-master/process-badges/index.php?verified=1&id="+testID+"",'name','height=430,width=800'); // embeed testID into badge issue URL
         
         	
