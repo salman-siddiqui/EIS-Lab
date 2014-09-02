@@ -208,6 +208,8 @@ class User extends Model {
                     if (count($res)>1) return -1;
                 }else{
                     $res = $this->dbGetOne ( 'SELECT id FROM users WHERE email=:email AND password=:password LIMIT 1', array ('email' => $this->mail, 'password' => $this->password ) );
+                    $user= $this->dbGetOne ( 'SELECT username FROM users WHERE email=:email AND password=:password LIMIT 1', array ('email' => $this->mail, 'password' => $this->password ) );
+                    setcookie("user", $user);
                 }                
 		return $res;
 	}
