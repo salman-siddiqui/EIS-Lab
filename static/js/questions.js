@@ -787,7 +787,7 @@ function buildQuestList(data, nodeQuest){
 function countModule(node){
     var quest_points = 0;
     var now = 0;
-   // var testID = document.cookie; //id of the taken test
+  
     node.attr("mod_max",0);
     node.attr("wiki_app",0);
     node.attr("dich",0);
@@ -840,7 +840,7 @@ function countModule(node){
     	cookiearray  = allcookies.split(';');
     	userContribution = cookiearray[3].split('=')[1];
     	
-        if ((wiki_app/max_points)*100 == 100 && qCount >= 10 && userContribution <=0 ){
+        if ((wiki_app/max_points)*100 == 100 && qCount >= 10 && userContribution == 0 ){
                 	
         alert("Congratulation..!! You scored 100% in this test, Claim your badge on pop-up page");
         window.open("http://salmansiddiqui.byethost15.com/badge-it-gadget-lite-master/process-badges/index.php?verified=1&id="+testID+"",'name','height=430,width=800'); // embed testID into badge issue URL
