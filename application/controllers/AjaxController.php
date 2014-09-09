@@ -1155,7 +1155,8 @@ class AjaxController extends Controller {
 				$cache->delData('deck_question_'.$id);
 				$cache->setData('deck_question_'.$id, json_encode($deck));
 			}			
-			echo json_encode ($deck);	
+			echo json_encode ($deck);
+				
 		}		
 	}
 	function getTestsByType() {

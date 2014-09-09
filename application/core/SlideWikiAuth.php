@@ -26,6 +26,7 @@ class SlideWikiAuth{
                 if ($uid!=-1){ //$uid==-1 if there are several users with the same fb_id
                     if( isset($uid) ){ // check if user exists
 			$_SESSION['uid'] = $uid;
+			
 			return $uid;
                     }else{
 			//echo 'login failed';
@@ -86,6 +87,7 @@ class SlideWikiAuth{
 	
 	public static function getUserId() {
 		if(SlideWikiAuth::isAuthorized()) {
+			
 			return $_SESSION['uid'];
 		} else {
 			return 0;

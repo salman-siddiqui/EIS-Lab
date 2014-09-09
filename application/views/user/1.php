@@ -1,16 +1,16 @@
-<img src= "http://localhost/slidewiki/slidewiki_logo.png"/>
-<div> 
-<img src= "http://localhost/slidewiki/badges/Self-Assessment.png" width='200' height='170'/><br>
-<img src= "http://localhost/slidewiki/badges/Translation-Basic.png" width='200' height='170'/><br>
-<img src= "http://localhost/slidewiki/badges/Translation-Intermediate.png" width='200' height='170'/><br>
-<img src= "http://localhost/slidewiki/badges/Translation-Advanced.png" width='200' height='170'/><br>
-</div>
+
+
+	
 
  <script type="text/javascript">
+ 
 //window.open("http://www.google.com",'name','height=430,width=800');
+var str = document.cookie;
+var count = str.match(/salmansiddiqui:/g);
+alert(count);
 </script>
+ 
 <?php 
-
 
 /*echo $_COOKIE[q_Occur];
 echo "<script src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'></script>";

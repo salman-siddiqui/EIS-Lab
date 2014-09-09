@@ -185,6 +185,7 @@
                     
                     <ul class="nav secondary-nav">
                         <?php if ($user['is_authorized']): ?>
+                        
                         <li class="dropdown">
                             <a href="learning-menu" class="dropdown-toggle"><? echo _("Learning"); ?></a>
                             <ul class="dropdown-menu" id="learning-menu">

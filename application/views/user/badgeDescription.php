@@ -7,7 +7,7 @@
 	<div id="text"><h4>SlideWiki Badges Are Here: Get Recognized!</h4>
 	SlideWiki aims to revolutionize the way how educational material is authored, shared and used. <br><br>
 	Learning happens everywhere. However it is often difficult to be recognized for skills and achievements  that  are  gained  outside  of  school.  Open  Badges  for  SlideWiki  project  is working to solve that problem by making it easy for anyone anywhere to earn, and display badges in the SlideWiki. Badges are a special or distinctive mark, token, or device worn as a sign of allegiance, membership, authority, achievement, etc. The result will be broad recognition of the skills and the experiences.
-<h4>Badges are not assessment ..!!</h4>
+<h4>Badges are not assessments ..!!</h4>
 Badges are the thing you get after you’ve learned something and successfully demonstrated learning through an assessment. The assessments are incredibly important because they are the ‘evidence’ or meat behind the badges. 
 	
 	</div>
