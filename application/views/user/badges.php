@@ -86,7 +86,8 @@ $.getJSON(url,
             imgUrl = data.badges[i].assertion.badge.image;
             critUrl = data.badges[i].assertion.badge.criteria;
             critUrl = critUrl +"?deck="+ '<?php echo $test_ID ;?>';
-            assertUrl = data.badges[i].hostedUrl;
+           <!--   assertUrl = data.badges[i].hostedUrl;-->
+            assertUrl ="./?url=user/badgeDescription";
            <!--widgetcode = widgetcode + "<a href='" + assertUrl + "'><img src='"+ imgUrl +"' width='180' height='150' border='0'/></a><br /></a><br>Criteria:<a href='" + critUrl + "'>" + badgeName +"</a>";-->          
             widgetcode = widgetcode + "<a href='" + assertUrl + "'><img src='"+ imgUrl +"' width='180' height='150' border='0'/></a><br /></a><br>Badge: " + badgeName +"</a>";
             widgetcode = widgetcode + "</td>";

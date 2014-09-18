@@ -207,6 +207,7 @@ class UserController extends Controller {
 	}
 }
  
+
        function tests(){
             $user_id = $_GET['id'];
             $user = new User();

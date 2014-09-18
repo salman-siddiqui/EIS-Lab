@@ -178,8 +178,8 @@
                     
                     <ul class="nav">
                     <li class="dropdown" style="margin-left:5px;">
-                    	<a href="http://localhost/slidewiki/application/views/user/badgeDescription.php"><? echo _("SlideWiki Badges");?></a>
-                    	
+                    	<a href="./?url=user/badgeDescription"><? echo _("SlideWiki Badges");?></a>
+                    	<!-- "http://localhost/slidewiki/application/views/user/badgeDescription.php"> -->
                     </li>
                     </ul>
                     
