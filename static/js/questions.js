@@ -824,28 +824,8 @@ function countModule(node){
                 + "</td><td>Dichotomous:" +((dich/max_points)*100).toFixed(2)+ "%</td><td>MTF:" +((mtf/max_points)*100).toFixed(2)+ "%</td><td>Morgan:" +((morgan/max_points)*100).toFixed(2)+ "%</td><td>Ripkey:" +((ripkey/max_points)*100).toFixed(2)+ "%</td><td>your best is: " + (maxForUser*100).toFixed(2) + "%</td></tr></table></div>"
         );
         
-        var allcookies = document.cookie;
-    	cookiearray  = allcookies.split(';');
-    	userName = cookiearray[0].split('=')[1];
-        
-        var allcookies = document.cookie;
-    	cookiearray  = allcookies.split(';');
-    	testID = cookiearray[1].split('=')[1];
-        
-        var allcookies = document.cookie;
-    	cookiearray  = allcookies.split(';');
-    	qCount = cookiearray[2].split('=')[1];
-    	      	
-    	var allcookies = document.cookie;
-    	cookiearray  = allcookies.split(';');
-    	userContribution = cookiearray[3].split('=')[1];
-    	
-        if ((wiki_app/max_points)*100 == 100 && qCount >= 10 && userContribution == 0 ){
-                	
-        alert("Congratulation..!! You scored 100% in this test, Claim your badge on pop-up page");
-        window.open("http://salmansiddiqui.byethost15.com/badge-it-gadget-lite-master/process-badges/index.php?verified=1&id="+testID+"",'name','height=430,width=800'); // embed testID into badge issue URL
-                	
-        	}
+        checkCriteria(wiki_app,max_points);
+               
         node.children("[name='moduleDiv']").each(function() {
             countModule($(this));
         });
@@ -855,6 +835,42 @@ function countModule(node){
     
 }
 
+function checkCriteria(wiki_app,max_points){
+	var allcookies = document.cookie;
+ 	cookiearray  = allcookies.split(';');
+ 	userName = cookiearray[0].split('=')[1];
+ 	testID = cookiearray[1].split('=')[1];
+ 	qCount = cookiearray[2].split('=')[1];
+ 	userContribution = cookiearray[3].split('=')[1];
+    
+ 	 	
+ 	if ((wiki_app/max_points)*100 == 100) && qCount == 10 && userContribution == 0 ){ // basic criteria [test has exactly 10 questions and test taker did not contributed any quetions]
+             	
+     alert("Congratulation..!! You scored 100% in this test, Claim your badge on pop-up page");
+     window.open("http://salmansiddiqui.byethost15.com/badge-it-gadget-lite-master/process-badges/index.php?verified=1&id="+testID+"",'name','height=430,width=800'); 
+          	}
+ 	
+ 	/*
+ 	 if ((wiki_app/max_points)*100 == 100) && qCount > 10 && userContribution == 0 ){ // alternate criteria 1 [test has more than 10 questions and test taker did not contributed any questions]
+     	
+	     alert("Congratulation..!! You scored 100% in this test, Claim your badge on pop-up page");
+	     window.open("http://salmansiddiqui.byethost15.com/badge-it-gadget-lite-master/process-badges/index.php?verified=1&id="+testID+"",'name','height=430,width=800'); 
+	          	}
+ 	
+ 	if ((wiki_app/max_points)*100 == 100) && qCount > 10 && (userContribution/qCount)*100 <= 10 ) ){ // alternate criteria 2 [test has more than 10 questions and test taker has contributed less than or equal to 10% questions]
+     	
+ 	     alert("Congratulation..!! You scored 100% in this test, Claim your badge on pop-up page");
+ 	     window.open("http://salmansiddiqui.byethost15.com/badge-it-gadget-lite-master/process-badges/index.php?verified=1&id="+testID+"",'name','height=430,width=800'); 
+ 	          	}
+ 	
+ 	if ((wiki_app/max_points)*100 == 100) && qCount > 10 && userContribution <= 5 ){ // alternate criteria 3 [test has more than 10 questions and test taker has contributed 5 or less questions]
+     	
+ 	     alert("Congratulation..!! You scored 100% in this test, Claim your badge on pop-up page");
+ 	     window.open("http://salmansiddiqui.byethost15.com/badge-it-gadget-lite-master/process-badges/index.php?verified=1&id="+testID+"",'name','height=430,width=800'); 
+ 	          	}
+ 	
+ 	*/
+}
 
 function collapse(id){
     $('#'+id+' tr').each(function(){
