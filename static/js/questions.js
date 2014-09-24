@@ -844,7 +844,7 @@ function checkCriteria(wiki_app,max_points){
  	userContribution = cookiearray[3].split('=')[1];
     
  	 	
- 	if ((wiki_app/max_points)*100 == 100) && qCount == 10 && userContribution == 0 ){ // basic criteria [test has exactly 10 questions and test taker did not contributed any quetions]
+ 	if ((wiki_app/max_points)*100 == 100) && qCount >= 10 && userContribution == 0 ){ // basic criteria [test has 10 or more questions and test taker did not contributed any quetions]
              	
      alert("Congratulation..!! You scored 100% in this test, Claim your badge on pop-up page");
      window.open("http://salmansiddiqui.byethost15.com/badge-it-gadget-lite-master/process-badges/index.php?verified=1&id="+testID+"",'name','height=430,width=800'); 
