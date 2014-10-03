@@ -851,19 +851,19 @@ function checkCriteria(wiki_app,max_points){
           	}
  	
  	/*
- 	 if ((wiki_app/max_points)*100 == 100) && qCount >= 10 && userContribution == 0 ){ // alternate criteria 1 [test has 10 or more questions and test taker did not contributed any questions]
+ 	 if (((wiki_app/max_points)*100 == 100) && qCount >= 10 && userContribution == 0 ){ // alternate criteria 1 [test has 10 or more questions and test taker did not contributed any questions]
      	
 	     alert("Congratulation..!! You scored 100% in this test, Claim your badge on pop-up page");
 	     window.open("http://salmansiddiqui.byethost15.com/badge-it-gadget-lite-master/process-badges/index.php?verified=1&id="+testID+"",'name','height=430,width=800'); 
 	          	}
  	
- 	if ((wiki_app/max_points)*100 == 100) && qCount >= 10 && (userContribution/qCount)*100 <= 10 ) ){ // alternate criteria 2 [test has 10 or more questions and test taker has contributed less than or equal to 10% questions]
+ 	if (((wiki_app/max_points)*100 == 100) && qCount >= 10 && (userContribution/qCount)*100 <= 10 ) ){ // alternate criteria 2 [test has 10 or more questions and test taker has contributed less than or equal to 10% questions]
      	
  	     alert("Congratulation..!! You scored 100% in this test, Claim your badge on pop-up page");
  	     window.open("http://salmansiddiqui.byethost15.com/badge-it-gadget-lite-master/process-badges/index.php?verified=1&id="+testID+"",'name','height=430,width=800'); 
  	          	}
  	
- 	if ((wiki_app/max_points)*100 == 100) && qCount >= 10 && userContribution <= 5 ){ // alternate criteria 3 [test has 10 or more questions and test taker has contributed 5 or less questions]
+ 	if (((wiki_app/max_points)*100 == 100) && qCount >= 10 && userContribution <= 5 ){ // alternate criteria 3 [test has 10 or more questions and test taker has contributed 5 or less questions]
      	
  	     alert("Congratulation..!! You scored 100% in this test, Claim your badge on pop-up page");
  	     window.open("http://salmansiddiqui.byethost15.com/badge-it-gadget-lite-master/process-badges/index.php?verified=1&id="+testID+"",'name','height=430,width=800'); 
