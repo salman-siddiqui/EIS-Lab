@@ -1,4 +1,5 @@
-<?php require_once (ROOT . DS . 'application' . DS . 'views' . DS . 'activity_templates.php'); ?>
+<?php require_once (ROOT . DS . 'application' . DS . 'views' . DS . 'activity_templates.php'); 
+session_start(); ?>
 <script type="text/javascript" src="static/js/profile.js"></script>
 <script type="text/javascript" src="libraries/frontend/jquery-tmpl/jquery.tmpl.min.js"></script>
 
@@ -12,31 +13,59 @@ getUserStream(<?php echo $_GET['id']; ?>,'','');
 
 <!-- Check translation criteria and issue the corresponding badge -->
 
-<?php $con=mysqli_connect('localhost','root','','slidewiki');
+<?php
+$sw_id = $_GET['id'];
+$_SESSION['vid'] = $sw_id;
+$con=mysqli_connect('localhost','root','','slidewiki');
+
 // Check connection
 if (mysqli_connect_errno()) {
 	echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
-$sql = mysqli_query($con,"SELECT count(*) FROM `deck_revision` where user_id=360 and not translated_from_revision = 'NULL';"); //hardcoded for user_id=360 reason lack of data from us
+$sql = mysqli_query($con,"SELECT count(distinct(translated_from_revision)) FROM `slide_revision` where user_id= $sw_id and translated_from_revision<>'NULL';"); 
+$sql1 = mysqli_query($con,"SELECT count(*) FROM `badge_import_details` where user_id=$sw_id ;"); 
 $row = mysqli_fetch_array($sql);
-if ($row['count(*)'] == 50 ){
-echo "<h3>Your Basic Translation Badge is ready claim it ";	
-echo "<a href= http://salmansiddiqui.byethost15.com/badge-it-gadget-lite-master/process-badges/index.php?verified=1&badge=2>here</a></h3>";
+$row1 = mysqli_fetch_array($sql1);
+
+
+if (($row['count(distinct(translated_from_revision))'] ==1) && ($row1['count(*)']<>01)){
+	echo "<h3>Your Basic Translation Badge is ready  claim it ";
+	echo "<a href= http://salmansiddiqui.byethost15.com/badge-it-gadget-lite-master/process-badges/index.php?verified=1&badge=2 target=_blank height=430,width=800>here</a></h3>";
+	mysqli_query($con,"INSERT INTO badge_import_details (badge_type,user_id) VALUES ('B', $sw_id)");//insert into table
 }
-if ($row['count(*)'] >50 && $row['count(*)']<=100 ){
-	echo "<h3>Your Intermediate Translation Badge is ready claim it ";
-	echo "<a href= http://salmansiddiqui.byethost15.com/badge-it-gadget-lite-master/process-badges/index.php?verified=1&badge=3>here</a></h3>";
+
+
+if (($row['count(distinct(translated_from_revision))'] == 2) && ($row1['count(*)']<>02)){
+	echo "<h3>Your Intermediate Translation Badge is ready  claim it ";
+	echo "<a href= http://salmansiddiqui.byethost15.com/badge-it-gadget-lite-master/process-badges/index.php?verified=1&badge=3 target=_blank height=430,width=800>here</a></h3>";
+	mysqli_query($con,"INSERT INTO badge_import_details (badge_type,user_id) VALUES ('I', $sw_id)");//insert into table
 }
-																											
-if ($row['count(*)'] >=100 ){
+
+if (($row['count(distinct(translated_from_revision))'] ==3) && ($row1['count(*)']<>03)){
 	echo "<h3>Your Advanced Translation Badge is ready  claim it ";
 	echo "<a href= http://salmansiddiqui.byethost15.com/badge-it-gadget-lite-master/process-badges/index.php?verified=1&badge=4 target=_blank height=430,width=800>here</a></h3>";
-	
+	mysqli_query($con,"INSERT INTO badge_import_details (badge_type,user_id) VALUES ('A', $sw_id)");//insert into table
 }
+
+
+
+$con=mysqli_connect('localhost','root','','slidewiki');
+// Check connection
+if (mysqli_connect_errno()) {
+	echo "Failed to connect to MySQL: " . mysqli_connect_error();
+}
+//$sql = mysqli_query($con,"SELECT count(*) FROM badge WHERE slidewiki_id=$sw_id;");
+//$row = mysqli_fetch_array($sql);
+
+//if ($row['count(*)'] ==0 ){
+//mysqli_query($con,"INSERT INTO import_test (badge_type,user_id) VALUES ('A', '$sw_id')");
+
 ?>
 
+
+
 <div id="msg_response" class="alert alert-block hide alert-success fade in" data-alert="alert">
-    <a class="close pointer-cursor">×</a>
+    <a class="close pointer-cursor">Ã—</a>
     Your msg has been sent successfully.
 </div>
 
@@ -48,7 +77,7 @@ if ($row['count(*)'] >=100 ){
                 <span class="r_entity r_profilepage" itemscope itemtype="http://schema.org/ProfilePage">
                 	<meta itemprop="url" content="./user/<?php echo trim($profile->id);?>" />
 	            	<span itemprop="accountablePerson" itemscope itemtype="http://schema.org/Person">
-		            <span class="r_prop r_name" itemprop="name"><?php echo trim($profile->username);?></span>
+		            <span class="r_prop r_name" itemprop="name"><?php echo trim($profile->username); $_SESSION['uname']= $profile->username ?></span>
 		            <meta itemprop="description" content="<?php echo trim($profile->description);?>" />
 		            <meta itemprop="image" content="./?url=ajax/getAvatarSrc&id=<?php echo trim($profile->id);?>" />
 		            <meta itemprop="url" content="<?php echo trim($profile->link);?>" />
@@ -59,9 +88,12 @@ if ($row['count(*)'] >=100 ){
           	  </span>    
             	</a>
             <?php if ($user['is_authorized'] && $_GET['id'] == $user['id']): ?>
-                <a id="profile-edit-link" href="user/<?php echo $_GET['id'];?>/edit"><small>(Edit your profile)</small></a>
-            <?php endif; ?>       
-        </h1>
+                <a id="profile-edit-link" href="user/<?php echo $_GET['id'];?>/edit"><small>(Edit your profile)</small></h1></a>
+            <?php endif; ?> 
+            
+            
+                 
+        
     </div>
     <div class="btn-toolbar" >
         <div class="btn-group" style="float:right;vertical-align:middle;clear:both;display:inline;">
@@ -99,6 +131,7 @@ if ($row['count(*)'] >=100 ){
             <ul class="tabs" data-tabs="tabs" id="item_tabs">                    
                 <li class="active"><a href="#user_activities" id="user-activities_link">Latest activities</a></li>                   
                 <li><a href="#followers" id="followers_link">Followers</a></li>
+                <li><a href="./?url=user/showBadges"><? echo _("Earned Badges"); ?></a></li>
             </ul>
         </nav>
     </header>
@@ -224,7 +257,7 @@ if ($row['count(*)'] >=100 ){
         
 <div id="modal_msg" class="modal hide fade in" style="display: none;">
 	<div class="modal-header">
-		<a class="close pointer-cursor">×</a>
+		<a class="close pointer-cursor">Ã—</a>
 			<h3>Message</h3>
 	</div>
 	<div class="modal-body">
