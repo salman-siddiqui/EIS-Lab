@@ -171,17 +171,16 @@
                     		<li><a href="slide/10007/latest"><? echo _("Cite SlideWiki"); ?></a></li>
                     		<li><a href="http://www.youtube.com/playlist?list=PL0A114817816A7849"><? echo _("Youtube channel"); ?></a></li>
                     		<li><a href="https://bitbucket.org/yamalightz/slidewiki/issues"><? echo _("Issue tracker"); ?></a></li>
-                                <li><a href="slide/18301/latest"><? echo _("Supporting organizations"); ?></a></li>
+                            <li><a href="slide/18301/latest"><? echo _("Supporting organizations"); ?></a></li>
+                            <li><a href="./?url=user/badgeDescription"><? echo _("SlideWiki Badges");?></a>
+                    	<!-- "http://localhost/slidewiki/application/views/user/badgeDescription.php"> -->
+                    </li>
+                    </ul>
                         </ul>
                     </li>
                     </ul>
                     
-                    <ul class="nav">
-                    <li class="dropdown" style="margin-left:5px;">
-                    	<a href="./?url=user/badgeDescription"><? echo _("SlideWiki Badges");?></a>
-                    	<!-- "http://localhost/slidewiki/application/views/user/badgeDescription.php"> -->
-                    </li>
-                    </ul>
+                    
                     
                     <ul class="nav secondary-nav">
                         <?php if ($user['is_authorized']): ?>
