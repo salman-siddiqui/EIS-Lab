@@ -1,4 +1,8 @@
 
+
+
+
+
 //-----------------------lists staff-----------------------------
 // lists - manually created questionnaires
 
@@ -249,18 +253,13 @@ function deleteQuestion(id){
     }
 }
 
-
-
-function showDeckQuestions(id) { 
-	
+function showDeckQuestions(id) {
 	$('#additional-elements').hide();
 	if (!reloadTabContent('Questions',id,'qd'))
 		return;
-	
-	$.ajax({ 
-		
+	$.ajax({
 		url : './?url=ajax/showDeckQuestions&id=' + id,
-              async : false,
+                async : false,
 		success : function(msg) {			
 			var data = eval("(" + msg + ")");
                         $("#item_questions").tmpl(data).appendTo("#itemquestions");
@@ -277,11 +276,9 @@ function showDeckQuestions(id) {
                         alert("This deck does not meet minimum requirement of 10 questions. No badge will be issued.");
                         }
                         stars_live();
-								}
-			});
+		}
+	});
 }
-
-
 function addQuestion(item_id, quest_id) {	
 	var user = getCurrenUserID(); // get the current user_id
 	if (!user) {
@@ -671,20 +668,15 @@ function startTest(){
     window.location="./?url=main/test&id="+id+"&type="+type+"&mode="+mode+"&limit="+limit;
     
 }
-
-
 function saveTest(){
-	
     var attempt = $('#quests-area').attr('attempt');
     var node = $("#results");
-   
+    
         node.find($(".resultsDiv")).each(function(){
             saveModule($(this),attempt);
         });
     
     alert("The test results are saved successfully!");
-   
-    
     $("#saveTestButton").hide();
 }
 function saveModule(node,attempt) {
@@ -824,7 +816,7 @@ function countModule(node){
                 + "</td><td>Dichotomous:" +((dich/max_points)*100).toFixed(2)+ "%</td><td>MTF:" +((mtf/max_points)*100).toFixed(2)+ "%</td><td>Morgan:" +((morgan/max_points)*100).toFixed(2)+ "%</td><td>Ripkey:" +((ripkey/max_points)*100).toFixed(2)+ "%</td><td>your best is: " + (maxForUser*100).toFixed(2) + "%</td></tr></table></div>"
         );
         
-        checkCriteria(wiki_app,max_points);
+       checkCriteria(wiki_app,max_points);
                
         node.children("[name='moduleDiv']").each(function() {
             countModule($(this));
@@ -844,26 +836,26 @@ function checkCriteria(wiki_app,max_points){
  	userContribution = cookiearray[3].split('=')[1];
     
  	 	
- 	if (((wiki_app/max_points)*100 == 100) && qCount >= 10 && userContribution == 0 ){ // basic criteria [test has 10 or more questions and test taker did not contributed any quetions]
+ 	if (((wiki_app/max_points)*100 == 100) && qCount == 10 && userContribution <= 5 ){ // basic criteria [test has 10 questions and test taker must contribute atleast one question as per our testing and existing SlideWiki behaviour]
              	
      alert("Congratulation..!! You scored 100% in this test, Claim your badge on pop-up page");
      window.open("http://salmansiddiqui.byethost15.com/badge-it-gadget-lite-master/process-badges/index.php?verified=1&id="+testID+"",'name','height=430,width=800'); 
           	}
  	
  	/*
- 	 if (((wiki_app/max_points)*100 == 100) && qCount >= 10 && userContribution == 0 ){ // alternate criteria 1 [test has 10 or more questions and test taker did not contributed any questions]
+ 	 if ((wiki_app/max_points)*100 == 100) && qCount > 10 && userContribution == 0 ){ // alternate criteria 1 [test has more than 10 questions and test taker did not contributed any questions]
      	
 	     alert("Congratulation..!! You scored 100% in this test, Claim your badge on pop-up page");
 	     window.open("http://salmansiddiqui.byethost15.com/badge-it-gadget-lite-master/process-badges/index.php?verified=1&id="+testID+"",'name','height=430,width=800'); 
 	          	}
  	
- 	if (((wiki_app/max_points)*100 == 100) && qCount >= 10 && (userContribution/qCount)*100 <= 10 ) ){ // alternate criteria 2 [test has 10 or more questions and test taker has contributed less than or equal to 10% questions]
+ 	if ((wiki_app/max_points)*100 == 100) && qCount > 10 && (userContribution/qCount)*100 <= 10 ) ){ // alternate criteria 2 [test has more than 10 questions and test taker has contributed less than or equal to 10% questions]
      	
  	     alert("Congratulation..!! You scored 100% in this test, Claim your badge on pop-up page");
  	     window.open("http://salmansiddiqui.byethost15.com/badge-it-gadget-lite-master/process-badges/index.php?verified=1&id="+testID+"",'name','height=430,width=800'); 
  	          	}
  	
- 	if (((wiki_app/max_points)*100 == 100) && qCount >= 10 && userContribution <= 5 ){ // alternate criteria 3 [test has 10 or more questions and test taker has contributed 5 or less questions]
+ 	if ((wiki_app/max_points)*100 == 100) && qCount > 10 && userContribution <= 5 ){ // alternate criteria 3 [test has more than 10 questions and test taker has contributed 5 or less questions]
      	
  	     alert("Congratulation..!! You scored 100% in this test, Claim your badge on pop-up page");
  	     window.open("http://salmansiddiqui.byethost15.com/badge-it-gadget-lite-master/process-badges/index.php?verified=1&id="+testID+"",'name','height=430,width=800'); 
